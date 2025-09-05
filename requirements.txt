@@ -1,5 +1,10 @@
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-pydantic==2.5.0
-httpx==0.25.0
-mcp==1.0.0
+# Legacy requirements file for environments without UV
+# For modern development, use: uv sync
+
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+httpx>=0.25.0
+mcp>=1.0.0
+python-multipart>=0.0.6
