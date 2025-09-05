@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: mcp-host-runner
-    env: python
-    runtime: python-3.11.0
-    plan: free
-    buildCommand: bash build.sh
-    startCommand: python main.py
