@@ -4,11 +4,12 @@ services:
     env: python
     plan: free
     buildCommand: |
-      export TERM=dumb
-      pip install --no-color --quiet -r requirements.txt
-    startCommand: python main.py
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      export PATH="$HOME/.cargo/bin:$PATH"
+      uv sync
+    startCommand: |
+      export PATH="$HOME/.cargo/bin:$PATH"
+      uv run python main.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
-      - key: TERM
-        value: dumb
