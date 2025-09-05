@@ -2,14 +2,7 @@ services:
   - type: web
     name: mcp-host-runner
     env: python
+    runtime: python-3.11.0
     plan: free
-    buildCommand: |
-      curl -LsSf https://astral.sh/uv/install.sh | sh
-      export PATH="$HOME/.cargo/bin:$PATH"
-      uv sync
-    startCommand: |
-      export PATH="$HOME/.cargo/bin:$PATH"
-      uv run python main.py
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
