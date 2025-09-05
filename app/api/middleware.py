@@ -189,12 +189,12 @@ def setup_middleware(app):
     # CORS 미들웨어 (가장 먼저)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins,
+        allow_origins=settings.cors_origins_list,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    logger.info(f"CORS setup complete: {settings.cors_origins}")
+    logger.info(f"CORS setup complete: {settings.cors_origins_list}")
     
     # GZip 압축
     app.add_middleware(GZipMiddleware, minimum_size=1000)

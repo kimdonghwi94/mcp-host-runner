@@ -34,10 +34,10 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False, env="DEBUG")
     
     # CORS 설정
-    cors_origins: List[str] = Field(
-        default=["*"], 
+    cors_origins: str = Field(
+        default="*", 
         env="CORS_ORIGINS",
-        description="허용할 CORS 오리진 목록"
+        description="허용할 CORS 오리진 (쉼표로 구분)"
     )
     
     # 보안 설정
@@ -84,6 +84,13 @@ class Settings(BaseSettings):
     def is_production(self) -> bool:
         """프로덕션 환경 여부"""
         return self.environment.lower() in ["production", "prod"]
+    
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """CORS origins를 리스트로 반환"""
+        if self.cors_origins == "*":
+            return ["*"]
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
     
     def get_platform_command(self, command: str) -> str:
         """플랫폼별 명령어 변환"""
@@ -135,7 +142,7 @@ def print_config_info(settings: Settings) -> dict:
         "is_windows": settings.is_windows,
         "debug": settings.debug,
         "mcp_cache_enabled": settings.mcp_cache_enabled,
-        "cors_origins": settings.cors_origins,
+        "cors_origins": settings.cors_origins_list,
         "rate_limit_enabled": settings.rate_limit_enabled,
     }
     
