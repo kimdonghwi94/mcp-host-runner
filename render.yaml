@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: mcp-host-runner
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: ENVIRONMENT
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: FILE_LOG_LEVEL
+        value: INFO
+      - key: CONSOLE_OUTPUT
+        value: true
+      - key: ENABLE_LOG_COLORS
+        value: false
+      - key: DEBUG
+        value: false
+      - key: MCP_CACHE_ENABLED
+        value: true
+      - key: MCP_AUTO_CLEANUP
+        value: true
+      - key: RATE_LIMIT_ENABLED
+        value: true
+      - key: CORS_ORIGINS
+        value: "*"
