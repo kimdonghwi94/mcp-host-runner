@@ -3,7 +3,7 @@ services:
     name: mcp-host-runner
     env: python
     plan: free
-    buildCommand: pip install uv && uv sync --frozen
+    buildCommand: uv sync --frozen
     startCommand: uv run python main.py
     envVars:
       - key: HOST
