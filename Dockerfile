@@ -8,23 +8,17 @@ RUN apt-get update && apt-get install -y \
     curl \
     nodejs \
     npm \
+    ncurses-bin \
     && rm -rf /var/lib/apt/lists/*
-
-# UV 설치
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:$PATH"
 
 # npm 글로벌 패키지 설치 (MCP 서버들을 위해)
 RUN npm install -g @modelcontextprotocol/server-filesystem \
     @modelcontextprotocol/server-github \
     && npm cache clean --force
 
-# Python 의존성 설치 (UV 사용)
-COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen
-
-# 레거시 지원을 위한 requirements.txt도 복사
+# Python 의존성 설치
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 애플리케이션 코드 복사
 COPY . .
@@ -44,5 +38,5 @@ EXPOSE 8001
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:8001/health || exit 1
 
-# 애플리케이션 실행 (UV 사용)
-CMD ["uv", "run", "python", "main.py"]
+# 애플리케이션 실행
+CMD ["python", "main.py"]
